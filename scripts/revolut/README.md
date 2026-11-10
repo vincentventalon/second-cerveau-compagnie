@@ -16,6 +16,13 @@ l'app jusqu'à ce que tu l'envoies et l'approuves toi-même.
 Ta banque n'est pas Revolut ? Garde l'idée : lecture seule, brouillons, approbation dans l'app.
 Si ta banque n'a pas d'API, la skill `preparer-virement` te prépare les détails à recopier.
 
+## Avant de commencer
+
+Il te faut un compte **Revolut Business** (un compte pro : l'API n'existe pas sur un compte
+perso). L'accès à l'API peut dépendre de ta formule : si tu ne vois pas « Business API » dans
+les paramètres, regarde ce que ta formule inclut. Sous Windows, `openssl` n'est pas installé
+par défaut : passe par WSL ou Git Bash.
+
 ## Mettre en place l'accès (une fois)
 
 Les étapes suivent la doc Revolut « Make your first API request ». Si un écran a changé, la doc
@@ -34,14 +41,17 @@ fait foi : https://developer.revolut.com/docs/guides/manage-accounts/get-started
 2. **Dépose le certificat chez Revolut.** Dans l'app web Revolut Business, choisis la bonne
    société si tu en as plusieurs, puis Paramètres, APIs, **Business API**, ajoute un certificat.
    Colle le contenu de `publiccert.cer` (lignes BEGIN et END comprises) et donne une adresse de
-   redirection (une page à toi, par exemple ton site). Revolut te donne un **client ID**.
+   redirection. C'est l'adresse vers laquelle Revolut renvoie ton navigateur après ton accord,
+   avec un code au bout (`?code=...`). Mets une page à toi (ton site, par exemple
+   `https://ton-site.fr`). La page n'a rien à faire de spécial : elle peut même afficher une
+   erreur, seul le code dans la barre d'adresse compte. Revolut te donne un **client ID**.
 
 3. **Remplis `secrets/revolut/config.json`** :
 
    ```json
    {
      "client_id": "<le client ID donné par Revolut>",
-     "iss": "<le domaine de ton adresse de redirection, sans https://>",
+     "iss": "<le domaine de ton adresse de redirection, sans https:// (pour https://ton-site.fr : ton-site.fr)>",
      "redirect_uri": "<l'adresse de redirection, au caractère près>",
      "iban": "<l'IBAN de ton compte principal>",
      "accounts": {},

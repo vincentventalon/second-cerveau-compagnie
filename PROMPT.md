@@ -1,7 +1,7 @@
 # Le prompt à coller dans Claude Code
 
-Ouvre Claude Code dans le dossier cloné (ou dans un dossier vide) et colle tout le bloc
-ci-dessous. Claude s'arrête après chaque étape et attend ton accord.
+Ouvre Claude Code dans le dossier cloné (c'est le cas si tu as suivi le README) et colle
+tout le bloc ci-dessous. Claude s'arrête après chaque étape et attend ton accord.
 
 ```
 Je veux monter mon second cerveau pour gérer mon activité : un dossier de fichiers texte,
@@ -10,12 +10,15 @@ dans cet ordre. À la fin de chaque étape, tu t'arrêtes, tu me montres ce que 
 et tu attends mon « ok » pour la suivante.
 
 0. Préparer le dossier.
-   - Si ce dossier ne contient pas déjà le modèle, clone-le ici :
-     git clone https://github.com/vincentventalon/second-cerveau-compagnie .
+   - Vérifie que ce dossier contient le modèle (CLAUDE.md, PROMPT.md, scripts/). S'il est
+     vide, clone-le ici : git clone https://github.com/vincentventalon/second-cerveau-compagnie .
+     puis dis-moi de quitter et de relancer Claude Code pour qu'il charge l'index et les skills.
    - Lis CLAUDE.md, README.md, et les fichiers par sujet. Ce sont des modèles vides :
      les lignes marquées « (exemple) » sont fictives, tu les remplaceras par les miennes.
    - Débranche le dossier du repo public : git remote remove origin. Ce que tu vas
-     écrire contient mes données, rien ne doit partir sur GitHub. Dis-moi que c'est fait.
+     écrire contient mes données, rien ne doit partir sur GitHub. Montre-moi que `git remote -v` ne rend plus
+     rien. Si git n'a pas encore mon nom (git config user.name), demande-le-moi et
+     règle-le pour ce dossier, sinon les commits échoueront.
 
 1. Brancher mes mails.
    Il y a deux voies, explique-les-moi en deux lignes chacune et laisse-moi choisir :
@@ -26,10 +29,14 @@ et tu attends mon « ok » pour la suivante.
      Limite : le connecteur ne lit pas le contenu des pièces jointes.
    - Voie complète, les scripts de scripts/ (API Gmail avec mon propre accès Google).
      Ils téléchargent les pièces jointes et créent des brouillons avec pièce jointe.
-     Guide-moi pas à pas avec la section « Les scripts Gmail » du README : le projet
+     Guide-moi écran par écran avec la section « La voie complète : les scripts Gmail »
+     du README (je ne connais pas la console Google : dis-moi où cliquer, une étape à
+     la fois, et attends que je te dise ce que je vois) : le projet
      Google Cloud, l'API Gmail, le client OAuth « Desktop app », le fichier
      secrets/google/client_secret.json, puis :
-       python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
+       python3 --version        (il faut 3.10 ou plus)
+       python3 -m venv .venv
+       .venv/bin/pip install -r scripts/requirements.txt
        .venv/bin/python scripts/auth_gmail.py
        .venv/bin/python scripts/gmail_lib.py
      Je peux aussi faire les deux : le connecteur pour lire, les scripts pour les pièces.
@@ -86,7 +93,8 @@ et tu attends mon « ok » pour la suivante.
    trois exemples de .claude/skills/ : adapte-les à mon cas, ou supprime ceux qui ne me
    servent pas. Règle pour toutes : tu prépares, j'approuve. Mails en brouillon, banque en
    lecture, jamais de paiement ni d'envoi.
-   Pour la banque : si elle a une API, propose de suivre scripts/revolut/README.md (ou
+   Pour la banque : demande-moi d'abord quelle est ma banque. Si c'est Revolut Business
+   (un compte pro, pas un compte perso), propose de suivre scripts/revolut/README.md (ou
    l'équivalent chez ma banque) avec des permissions en lecture et brouillons seulement.
    Sinon, la skill prépare les détails du virement à recopier.
    Après mon choix, écris les skills, puis dis-moi laquelle lancer en automatique et

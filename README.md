@@ -83,6 +83,9 @@ Deux limites à connaître
 
 ### La voie complète : les scripts Gmail
 
+Compte 20 à 30 minutes la première fois. Si un écran de Google ne ressemble pas à ce qui est
+écrit ici, dis à Claude ce que tu vois : il te guide.
+
 Les scripts de `scripts/` parlent à l'API Gmail avec **ton propre accès Google**. Ils lisent les
 pièces jointes et créent des brouillons qui portent un PDF. Ils n'ont pas de commande d'envoi.
 Il faut les mettre en place une fois, dans la console Google Cloud
@@ -94,9 +97,13 @@ Il faut les mettre en place une fois, dans la console Google Cloud
 3. Ouvre **Google Auth Platform**. Dans **Branding**, donne un nom d'app et ton adresse. Dans
    **Audience**, choisis **External** si tu as une adresse Gmail perso (**Internal** si c'est un
    compte Google Workspace de ta société), et ajoute ton adresse dans les **utilisateurs test**.
-4. Dans **Clients**, crée un client de type **Desktop app**. Télécharge le JSON et enregistre-le
-   sous `secrets/google/client_secret.json`.
-5. Dans le dossier (Python 3.10 ou plus récent ; les bibliothèques Google conseillent 3.11) :
+4. Dans **Clients**, crée un client de type **Desktop app**. Télécharge le JSON. Crée le dossier
+   `secrets/google/` dans ton second cerveau (`mkdir -p secrets/google`) et range le fichier
+   dedans sous le nom `client_secret.json`.
+5. Dans le dossier, installe les outils. Il faut Python 3.10 ou plus récent (`python3 --version`
+   te donne ta version ; sur Mac, `brew install python` installe une version récente). Le
+   « venv » est un dossier d'outils isolé, créé dans ton second cerveau, qui ne touche pas au
+   reste de ton ordinateur :
 
    ```
    python3 -m venv .venv
@@ -104,7 +111,8 @@ Il faut les mettre en place une fois, dans la console Google Cloud
    .venv/bin/python scripts/auth_gmail.py
    ```
 
-   Un navigateur s'ouvre : choisis ton compte, accepte. Google affiche un avertissement avant
+   Un navigateur s'ouvre : choisis ton compte, accepte. En Python 3.10, un `FutureWarning` de
+   trois lignes s'affiche à chaque lancement : il est sans gravité. Google affiche un avertissement avant
    l'autorisation, parce que l'app est en mode test : c'est ton app, sur ton compte. Le token
    tombe dans `secrets/google/token.json`.
 6. Test : `.venv/bin/python scripts/gmail_lib.py` affiche ton adresse et ton nombre de mails.
@@ -123,12 +131,19 @@ Ce que tu lances ensuite :
 .venv/bin/python scripts/gmail_cli.py draft --to <adresse> --subject "<objet>" --body-file <texte.txt> --attach <facture.pdf>
 ```
 
-La requête suit la syntaxe de la recherche Gmail. `pdftext` affiche le texte d'un PDF si tu as
-installé poppler.
+La requête suit la syntaxe de la recherche Gmail. `gmail_cli.py pdftext <fichier.pdf>` affiche le
+texte d'un PDF, si tu as installé poppler (`brew install poppler` sur Mac).
 
-## Brancher ta banque (étape 5, si tu veux)
+Les scripts Gmail se lancent toujours avec `.venv/bin/python` (ils ont besoin des bibliothèques
+Google installées dans le venv). Les scripts Revolut n'ont besoin de rien : `python3` suffit.
 
-`scripts/revolut/` est un exemple avec Revolut Business : lire les soldes, sortir les relevés en
+Sous Windows : les commandes sont écrites pour Mac et Linux. Le plus simple est de lancer Claude
+Code dans WSL. Sinon, remplace `.venv/bin/python` par `.venv\Scripts\python.exe`.
+
+## Brancher ta banque (en option, avec les skills de l'étape 5)
+
+`scripts/revolut/` est un exemple avec Revolut Business (un compte pro Revolut, pas un compte
+perso ; si ta banque est une autre, saute cette partie) : lire les soldes, sortir les relevés en
 CSV, créer des brouillons de virement. L'accès se donne avec les permissions **READ** et
 **WRITE** seulement. Selon la doc Revolut, WRITE permet de créer des brouillons de paiement, et
 seule la permission PAY permet de lancer un virement : sans elle, aucun script ne peut payer. Le
@@ -142,7 +157,7 @@ brouillon apparaît dans l'app, et c'est toi qui l'envoies et l'approuves. La mi
 2. Les scripts Gmail, si tes pièces jointes comptent (factures, relevés : chez un freelance,
    elles comptent presque toujours).
 3. Le prompt, étapes 2 à 5.
-4. La banque, en dernier, quand le dossier tourne.
+4. La banque, en dernier et seulement si tu veux, quand le dossier tourne.
 
 ## Comment les skills appellent les scripts
 

@@ -8,12 +8,12 @@ Il n'envoie jamais rien : la commande « draft » crée un brouillon, c'est toi 
 l'envoies depuis Gmail.
 
 Exemples (la requête suit la syntaxe de recherche de Gmail) :
-    python3 scripts/gmail_cli.py search "from:compta@cabinet-dupont.example newer_than:30d"
-    python3 scripts/gmail_cli.py msg <id_du_message>
-    python3 scripts/gmail_cli.py thread <id_du_fil>
-    python3 scripts/gmail_cli.py grab "has:attachment facture newer_than:90d" --out data/pieces --ext .pdf
-    python3 scripts/gmail_cli.py pdftext data/pieces/*.pdf
-    python3 scripts/gmail_cli.py draft --to client@acme.example --subject "Facture" \\
+    .venv/bin/python scripts/gmail_cli.py search "from:compta@cabinet-dupont.example newer_than:30d"
+    .venv/bin/python scripts/gmail_cli.py msg <id_du_message>
+    .venv/bin/python scripts/gmail_cli.py thread <id_du_fil>
+    .venv/bin/python scripts/gmail_cli.py grab "has:attachment facture newer_than:90d" --out data/pieces --ext .pdf
+    .venv/bin/python scripts/gmail_cli.py pdftext data/pieces/*.pdf
+    .venv/bin/python scripts/gmail_cli.py draft --to client@acme.example --subject "Facture" \\
         --body-file data/brouillons/mail.txt --attach data/factures/facture.pdf
 
 L'id d'un message sert aussi de lien : https://mail.google.com/mail/u/0/#all/<id>
