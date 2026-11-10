@@ -1,0 +1,27 @@
+# Tes pièces : PDF, relevés, pièces jointes. Jamais versionnées.
+data/*
+!data/README.md
+
+# Tes accès : Gmail, Revolut, tout ce qui ouvre un compte.
+secrets/
+token.json
+tokens.json
+client_secret*.json
+credentials.json
+*.pem
+*.key
+*.cer
+*.p12
+.env
+.env.*
+
+# Réglages personnels de Claude Code (dont la règle qui interdit l'envoi de mails).
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Python et système
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

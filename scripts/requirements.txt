@@ -1,0 +1,5 @@
+# Scripts Gmail (gmail_lib.py, auth_gmail.py, gmail_cli.py).
+# Les scripts Revolut n'ont besoin de rien de plus que Python et openssl.
+google-api-python-client>=2.0
+google-auth>=2.0
+google-auth-oauthlib>=1.0
